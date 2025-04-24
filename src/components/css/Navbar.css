@@ -1,0 +1,74 @@
+/* .navbar {
+    border: 1px solid white;
+    border-radius: 15px;
+    padding: 10px 30px !important;
+} */
+
+.logo-text {
+    font-family: Pacifico; /* сменить на фото с нужным шрифтом */
+    font-size: 36px;
+}
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+}
+
+.logo-img:hover {
+    transition: 0.4s;
+    transform: rotate(360deg);
+}
+
+.nav-links {
+    display: flex;
+}
+
+.nav-link {
+    margin: 0 15px;
+    font-size: 23px;
+    list-style-type: none;
+    /* font-family: Didact Gothic; */
+    font-family: Patrick Hand SC;
+}
+
+.navbar {
+    margin-top: 20px !important;
+    width: 1440px !important;
+    margin-left: 30px;
+}
+
+.navbar > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 15px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background: var(--block-background-color-dark);
+    border: 1px solid var(--block-border-color-dark);
+}
+
+/* код для анимации navbar text */
+.link-ease-in-out a {
+    display: inline-block;
+    line-height: 1;
+    text-decoration: none; /* Убираем подчеркивание */
+    cursor: pointer;
+}
+
+.link-ease-in-out a:after {
+    background-color: var(--text-color-white);
+    display: block;
+    content: "";
+    height: 3px; /* Высота линии */
+    width: 0%;
+    -webkit-transition: width 0.3s ease-in-out;
+    -moz--transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out;
+}
+
+.link-ease-in-out a:hover:after {
+    width: 100%;
+}

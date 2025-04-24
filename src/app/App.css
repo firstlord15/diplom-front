@@ -1,0 +1,13 @@
+body {
+    background-color: var(--bg-dark);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+}

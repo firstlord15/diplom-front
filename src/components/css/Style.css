@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Borel&family=Limelight&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Patrick+Hand+SC&family=Roboto:ital,wght@0,100..900;1,100..900&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Borel&family=Didact+Gothic&family=Limelight&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&family=Patrick+Hand+SC&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap");
+
+a {
+    text-decoration: none;
+    color: var(--text-color-white);
+}
+
+.container-lg {
+    width: 1300px;
+}
+
+.container {
+    width: 1200px;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.br-25 {
+    border-radius: 15px;
+    border: 1px white;
+}
+
+.color-white {
+    color: white;
+}
+
+.backgorund {
+    background: url("https://img.freepik.com/premium-vector/pencil-infographic-white-background-vector-illustration_252172-167.jpg");
+}
+
+.colum-center {
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 900px) {
+    .container {
+        max-width: none;
+        padding: 0 15px;
+    }
+
+    .container- {
+        max-width: none;
+        padding: 0 15px;
+    }
+}
+
+:root {
+    --text-color-dark: black;
+    --fill-dark: black;
+    --stroke-dark: black;
+    --text-color-white: white;
+    --fill-white: white;
+    --stroke-white: white;
+    --block-background-color: #dedede;
+    --block-border-color: #b0b0b0;
+    --block-background-color-dark: #1a1a1a;
+    --block-border-color-dark: #333333;
+    --purple: #9f29d1;
+    --bg-dark: #1a1a1a;
+    --input-bg: #252525;
+    --border-color: #484848;
+    --accent-color: #701df4;
+    --text-primary: #e2e2e2;
+    --text-secondary: #aaaaaa;
+    --error-color: #e94560;
+    --success-color: #4ecca3;
+}
