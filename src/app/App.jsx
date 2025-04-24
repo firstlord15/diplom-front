@@ -5,6 +5,7 @@ import Main from "../components/Main";
 import Minibar from "../components/Minibar";
 import "./App.css";
 import Login from "../components/Login";
+import Register from "../components/Register";
 
 function App() {
     return (
@@ -31,6 +32,14 @@ function App() {
                     element={
                         <div className="row container center">
                             <Login />
+                        </div>
+                    }
+                />
+                <Route
+                    path="/register"
+                    element={
+                        <div className="row container center">
+                            <Register />
                         </div>
                     }
                 />

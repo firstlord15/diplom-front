@@ -1,0 +1,68 @@
+/* Стили для страницы регистрации */
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    margin-top: 15px;
+    background: linear-gradient(45deg, var(--accent-color), #5f00f7);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn-primary:hover::after {
+    left: 100%;
+}
+
+/* Стили для ссылки перехода к логину */
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.login-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #5f00f7;
+    text-decoration: underline;
+}
+
+/* Стили для декоративных элементов */
+.decoration-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--accent-color), transparent);
+    opacity: 0.1;
+}
+
+.decoration-circle.top-right {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -150px;
+}
+
+.decoration-circle.bottom-left {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+}
