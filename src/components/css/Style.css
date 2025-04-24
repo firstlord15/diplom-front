@@ -27,6 +27,10 @@ a {
     color: white;
 }
 
+.h-1000 {
+    height: 1000px;
+}
+
 .backgorund {
     background: url("https://img.freepik.com/premium-vector/pencil-infographic-white-background-vector-illustration_252172-167.jpg");
 }
@@ -60,7 +64,7 @@ a {
     --block-border-color: #b0b0b0;
     --block-background-color-dark: #1a1a1a;
     --block-border-color-dark: #333333;
-    --purple: #9f29d1;
+    --purple: rgb(161 29 218);
     --bg-dark: #1a1a1a;
     --input-bg: #252525;
     --border-color: #484848;

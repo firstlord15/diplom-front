@@ -43,8 +43,8 @@ const Navbar = () => {
                                 </li>
                                 <li className="nav-link">
                                     <div className="link-ease-in-out">
-                                        <NavLink className="" to="/Register">
-                                            Register
+                                        <NavLink className="" to="/profile">
+                                            Profile
                                         </NavLink>
                                     </div>
                                 </li>

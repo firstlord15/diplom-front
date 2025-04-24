@@ -6,7 +6,7 @@ const Main = () => {
     return (
         <div className="Main">
             <div className="container">
-                <div className="content br-25 backgorund"></div>
+                <div className="content h-1000 br-25 backgorund"></div>
             </div>
         </div>
     );

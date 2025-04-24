@@ -56,13 +56,21 @@
 .decoration-circle.top-right {
     width: 300px;
     height: 300px;
-    top: -150px;
-    right: -150px;
+    top: 0px;
+    right: 0px;
 }
 
 .decoration-circle.bottom-left {
     width: 200px;
     height: 200px;
-    bottom: -100px;
+    bottom: 0px;
     left: -100px;
+}
+
+/* Стиль для сообщения об ошибке */
+.form-text.error {
+    color: #ff3860;
+    font-weight: 500;
+    margin-top: 5px;
+    display: block;
 }
