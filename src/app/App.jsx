@@ -29,6 +29,22 @@ function App() {
                     }
                 />
                 <Route
+                    path="/profile"
+                    element={
+                        <div className="wrapper">
+                            <header className="App-header">
+                                <Navbar />
+                            </header>
+                            <main>
+                                <div className="row container center">
+                                    <Minibar />
+                                    <Profile />
+                                </div>
+                            </main>
+                        </div>
+                    }
+                />
+                <Route
                     path="/login"
                     element={
                         <div className="row container center">
@@ -41,14 +57,6 @@ function App() {
                     element={
                         <div className="row container center">
                             <Register />
-                        </div>
-                    }
-                />
-                <Route
-                    path="/profile"
-                    element={
-                        <div className="row container center">
-                            <Profile />
                         </div>
                     }
                 />

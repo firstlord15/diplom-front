@@ -47,7 +47,7 @@
 .minibar-icons-hover:focus .minibar-icons {
     transition: 0.2s;
     stroke: #000 !important;
-    fill: var(--purple) !important;
+    fill: var(--fill) !important;
 }
 
 .minibar-icons-text {

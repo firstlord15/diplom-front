@@ -1,0 +1,12 @@
+.main-info {
+    padding: 20px;
+}
+
+.profile-photo {
+    width: 500px;
+    height: 500px;
+}
+
+.profile-photo > img {
+    width: 100%;
+}

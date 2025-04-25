@@ -10,7 +10,6 @@ const Register = () => {
     });
 
     const [passwordError, setPasswordError] = useState("");
-
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData({
@@ -18,7 +17,6 @@ const Register = () => {
             [id]: value,
         });
 
-        // Clear password error when user types in either password field
         if (id === "password" || id === "confirmPassword") {
             setPasswordError("");
         }
@@ -27,15 +25,12 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Check if passwords match
         if (formData.password !== formData.confirmPassword) {
             setPasswordError("Passwords do not match");
             return;
         }
 
-        // If passwords match, proceed with form submission
-        // You can redirect to the desired page here
-        window.location.href = "/login"; // Change this to your desired URL
+        window.location.href = "/login";
     };
 
     return (

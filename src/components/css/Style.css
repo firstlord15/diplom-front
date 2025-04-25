@@ -20,7 +20,7 @@ a {
 
 .br-25 {
     border-radius: 15px;
-    border: 1px white;
+    border: 1px solid var(--block-border-color-dark);
 }
 
 .color-white {
