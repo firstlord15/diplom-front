@@ -6,7 +6,11 @@ const AuthContext = createContext(null);
 
 // Создаем провайдер для контекста
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(null);
+    // Пытаемся получить данные пользователя из localStorage при инициализации
+    const [currentUser, setCurrentUser] = useState(() => {
+        const savedUser = localStorage.getItem("currentUser");
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -15,17 +19,26 @@ export const AuthProvider = ({ children }) => {
         const checkAuth = async () => {
             const token = localStorage.getItem("token");
             if (!token) {
+                setCurrentUser(null);
                 setLoading(false);
                 return;
             }
 
             try {
-                const response = await userService.getCurrentUser();
-                setCurrentUser(response.data);
+                // Если у нас нет данных пользователя или мы хотим обновить их
+                if (!currentUser) {
+                    const response = await userService.getCurrentUser();
+                    const userData = response.data;
+                    setCurrentUser(userData);
+                    // Сохраняем данные пользователя в localStorage
+                    localStorage.setItem("currentUser", JSON.stringify(userData));
+                }
             } catch (err) {
                 console.error("Auth check error:", err);
-                // При ошибке аутентификации удаляем токен
+                // При ошибке аутентификации удаляем токен и данные пользователя
                 localStorage.removeItem("token");
+                localStorage.removeItem("currentUser");
+                setCurrentUser(null);
                 setError("Сессия истекла. Пожалуйста, войдите снова.");
             } finally {
                 setLoading(false);
@@ -44,7 +57,12 @@ export const AuthProvider = ({ children }) => {
 
             // Получаем данные текущего пользователя после успешного входа
             const userResponse = await userService.getCurrentUser();
-            setCurrentUser(userResponse.data);
+            const userData = userResponse.data;
+            setCurrentUser(userData);
+
+            // Сохраняем данные пользователя в localStorage
+            localStorage.setItem("currentUser", JSON.stringify(userData));
+
             setError(null);
             return true;
         } catch (err) {
@@ -65,7 +83,12 @@ export const AuthProvider = ({ children }) => {
 
             // Получаем данные текущего пользователя после успешной регистрации
             const userResponse = await userService.getCurrentUser();
-            setCurrentUser(userResponse.data);
+            const newUserData = userResponse.data;
+            setCurrentUser(newUserData);
+
+            // Сохраняем данные пользователя в localStorage
+            localStorage.setItem("currentUser", JSON.stringify(newUserData));
+
             setError(null);
             return true;
         } catch (err) {
@@ -80,6 +103,7 @@ export const AuthProvider = ({ children }) => {
     // Функция для выхода пользователя
     const logout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("currentUser");
         setCurrentUser(null);
     };
 
@@ -91,6 +115,19 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
+        // Добавляем функцию обновления данных пользователя
+        refreshUserData: async () => {
+            try {
+                const response = await userService.getCurrentUser();
+                const userData = response.data;
+                setCurrentUser(userData);
+                localStorage.setItem("currentUser", JSON.stringify(userData));
+                return userData;
+            } catch (err) {
+                console.error("Error refreshing user data:", err);
+                throw err;
+            }
+        },
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Style.css";
 import "./css/Login.css";
-import { userService } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login, loading, error: authError } = useAuth();
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
     const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -24,34 +24,23 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        setIsLoading(true);
 
         try {
-            // Call the login API
-            const response = await userService.login({
+            // Вызываем функцию входа из контекста аутентификации
+            const success = await login({
                 username: formData.username,
                 password: formData.password,
             });
 
-            // Store the JWT token in localStorage
-            localStorage.setItem("token", response.data.token);
-            console.log("Сохраненный токен: ", localStorage.getItem("token"));
-
-            // Redirect to the home page
-            navigate("/");
+            if (success) {
+                // Перенаправляем на главную страницу после успешного входа
+                navigate("/");
+            } else {
+                setError(authError || "Ошибка входа в систему");
+            }
         } catch (err) {
             console.error("Login error:", err);
-
-            // Handle different error scenarios
-            if (err.response && err.response.status === 401) {
-                setError("Invalid username or password");
-            } else if (err.response && err.response.data.message) {
-                setError(err.response.data.message);
-            } else {
-                setError("An error occurred during login. Please try again.");
-            }
-        } finally {
-            setIsLoading(false);
+            setError("Произошла ошибка при входе. Пожалуйста, попробуйте снова.");
         }
     };
 
@@ -67,7 +56,7 @@ const Login = () => {
                             <h2>Login</h2>
                         </div>
 
-                        {error && <div className="error-message">{error}</div>}
+                        {(error || authError) && <div className="error-message">{error || authError}</div>}
 
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
@@ -79,8 +68,8 @@ const Login = () => {
                             <input type="password" className="form-control" id="password" required placeholder="Password" value={formData.password} onChange={handleChange} />
                         </div>
 
-                        <button type="submit" className="btn btn-primary" disabled={isLoading}>
-                            {isLoading ? "Logging in..." : "Login"}
+                        <button type="submit" className="btn btn-primary" disabled={loading}>
+                            {loading ? "Logging in..." : "Login"}
                         </button>
 
                         <div className="login-link">

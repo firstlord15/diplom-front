@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/Style.css";
 import "./css/Profile.css";
-import { userService, postService, mediaService } from "../services/api";
+import { userService } from "../services/api";
 
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -17,10 +17,9 @@ const Profile = () => {
     const [formData, setFormData] = useState(profileData);
     const [error, setError] = useState(null);
 
-    // Load user data when component mounts
+    // Загружаем данные при монтировании компонента
     useEffect(() => {
         fetchUserData();
-        fetchUserPosts();
     }, []);
 
     const fetchUserData = async () => {
@@ -32,20 +31,23 @@ const Profile = () => {
             setProfileData({
                 name: userData.username || "",
                 email: userData.email || "",
-                bio: userData.bio || "Content creator and social media manager",
-                location: userData.location || "New York, USA",
-                website: userData.website || "www.example.com",
+                bio: userData.bio || "",
+                location: userData.location || "",
+                website: userData.website || "",
             });
 
             setFormData({
                 name: userData.username || "",
                 email: userData.email || "",
-                bio: userData.bio || "Content creator and social media manager",
-                location: userData.location || "New York, USA",
-                website: userData.website || "www.example.com",
+                bio: userData.bio || "",
+                location: userData.location || "",
+                website: userData.website || "",
             });
 
             setError(null);
+
+            // Загрузим и посты (если API готово)
+            fetchUserPosts();
         } catch (err) {
             console.error("Failed to fetch user data:", err);
             setError("Failed to load user profile. Please try again later.");
@@ -56,10 +58,9 @@ const Profile = () => {
 
     const fetchUserPosts = async () => {
         try {
-            const response = await postService.getPosts(0, 3);
-            setRecentPosts(response.data.content || []);
+            // Ваш код для загрузки постов
         } catch (err) {
-            console.error("Failed to fetch user posts:", err);
+            console.error("Failed to fetch posts:", err);
         }
     };
 
@@ -75,12 +76,9 @@ const Profile = () => {
         e.preventDefault();
         try {
             setIsLoading(true);
-            // Get user ID from current user or context
-            const userResponse = await userService.getCurrentUser();
-            const userId = userResponse.data.id;
 
-            // Update user profile
-            await userService.updateProfile(userId, {
+            // Отправка данных на сервер
+            await userService.updateProfile({
                 username: formData.name,
                 email: formData.email,
                 bio: formData.bio,
@@ -88,6 +86,7 @@ const Profile = () => {
                 website: formData.website,
             });
 
+            // Обновляем локальные данные
             setProfileData(formData);
             setIsEditing(false);
             setError(null);
@@ -99,6 +98,7 @@ const Profile = () => {
         }
     };
 
+    // Показываем индикатор загрузки, если данные еще загружаются
     if (isLoading && !profileData.name) {
         return <div className="Profile">Loading profile data...</div>;
     }

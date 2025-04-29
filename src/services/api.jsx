@@ -3,12 +3,12 @@ import axios from "axios";
 // Base URL for API requests
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-// Create axios instance with default config
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
     headers: {
         "Content-Type": "application/json",
     },
+    timeout: 10000, // 10 секунд таймаут
 });
 
 // Add request interceptor for authentication
@@ -39,8 +39,8 @@ const userService = {
         return apiClient.get("/user-service/users/current");
     },
 
-    updateProfile: (userId, userData) => {
-        return apiClient.put(`/user-service/users/${userId}`, userData);
+    updateProfile: (userData) => {
+        return apiClient.put(`/user-service/users/profile`, userData);
     },
 };
 
