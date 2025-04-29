@@ -7,6 +7,7 @@ import "./App.css";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Profile from "../components/Profile";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 function App() {
     return (
@@ -31,17 +32,19 @@ function App() {
                 <Route
                     path="/profile"
                     element={
-                        <div className="wrapper">
-                            <header className="App-header">
-                                <Navbar />
-                            </header>
-                            <main>
-                                <div className="row container center">
-                                    <Minibar />
-                                    <Profile />
-                                </div>
-                            </main>
-                        </div>
+                        <ProtectedRoute>
+                            <div className="wrapper">
+                                <header className="App-header">
+                                    <Navbar />
+                                </header>
+                                <main>
+                                    <div className="row container center">
+                                        <Minibar />
+                                        <Profile />
+                                    </div>
+                                </main>
+                            </div>
+                        </ProtectedRoute>
                     }
                 />
                 <Route

@@ -3,17 +3,22 @@ import React from "react";
 import Logo from "../resource/logo";
 import "./css/Navbar.css";
 import "./css/Style.css";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
+    const { currentUser, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        // Перенаправление на страницу входа происходит автоматически через ProtectedRoute
+    };
+
     return (
         <div className="Navbar">
             <nav className="">
                 <div className="container navbar">
                     <div>
                         <div className="logo">
-                            {/* <NavLink className="logo-text" to="/">
-                            Publisher
-                        </NavLink> */}
                             <NavLink to="/">
                                 <Logo className="logo-img" />
                             </NavLink>
@@ -27,27 +32,44 @@ const Navbar = () => {
                                         </NavLink>
                                     </div>
                                 </li>
-                                <li className="nav-link">
-                                    <div className="link-ease-in-out">
-                                        <NavLink className="" to="/login">
-                                            Login
-                                        </NavLink>
-                                    </div>
-                                </li>
-                                <li className="nav-link">
-                                    <div className="link-ease-in-out">
-                                        <NavLink className="" to="/register">
-                                            Registration
-                                        </NavLink>
-                                    </div>
-                                </li>
-                                <li className="nav-link">
-                                    <div className="link-ease-in-out">
-                                        <NavLink className="" to="/profile">
-                                            Profile
-                                        </NavLink>
-                                    </div>
-                                </li>
+
+                                {currentUser ? (
+                                    // Меню для аутентифицированных пользователей
+                                    <>
+                                        <li className="nav-link">
+                                            <div className="link-ease-in-out">
+                                                <NavLink className="" to="/profile">
+                                                    Profile
+                                                </NavLink>
+                                            </div>
+                                        </li>
+                                        <li className="nav-link">
+                                            <div>
+                                                <button className="btn btn-loggout" onClick={handleLogout}>
+                                                    Logout
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </>
+                                ) : (
+                                    // Меню для гостей
+                                    <>
+                                        <li className="nav-link">
+                                            <div className="link-ease-in-out">
+                                                <NavLink className="" to="/login">
+                                                    Login
+                                                </NavLink>
+                                            </div>
+                                        </li>
+                                        <li className="nav-link">
+                                            <div className="link-ease-in-out">
+                                                <NavLink className="" to="/register">
+                                                    Registration
+                                                </NavLink>
+                                            </div>
+                                        </li>
+                                    </>
+                                )}
                             </ul>
                         </div>
                     </div>

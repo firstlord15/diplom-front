@@ -23,6 +23,14 @@ a {
     border: 1px solid var(--block-border-color-dark);
 }
 
+.mt-1 {
+    margin-top: 20px;
+}
+
+.mt-2 {
+    margin-top: 40px;
+}
+
 .color-white {
     color: white;
 }
