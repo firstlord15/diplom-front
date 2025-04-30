@@ -8,6 +8,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import Profile from "../components/Profile";
 import ProtectedRoute from "../components/ProtectedRoute";
+import ProfileSkeleton from "../components/ProfileSkeleton";
 
 function App() {
     return (
@@ -52,6 +53,14 @@ function App() {
                     element={
                         <div className="row container center">
                             <Login />
+                        </div>
+                    }
+                />
+                <Route
+                    path="/test"
+                    element={
+                        <div className="row container center">
+                            <ProfileSkeleton />
                         </div>
                     }
                 />

@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./css/Style.css";
 import "./css/Profile.css";
+import ProfileSkeleton from "./ProfileSkeleton";
 import { userService } from "../services/api";
 
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const [profileData, setProfileData] = useState({
-        name: "",
-        email: "",
-        bio: "",
-        location: "",
-        website: "",
-    });
+    const [profileData, setProfileData] = useState(null);
+
     const [recentPosts, setRecentPosts] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState(profileData);
@@ -52,7 +48,9 @@ const Profile = () => {
             console.error("Failed to fetch user data:", err);
             setError("Failed to load user profile. Please try again later.");
         } finally {
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 100);
         }
     };
 
@@ -99,8 +97,8 @@ const Profile = () => {
     };
 
     // Показываем индикатор загрузки, если данные еще загружаются
-    if (isLoading && !profileData.name) {
-        return <div className="Profile">Loading profile data...</div>;
+    if (isLoading) {
+        return <ProfileSkeleton />;
     }
 
     return (

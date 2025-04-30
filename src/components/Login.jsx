@@ -34,7 +34,7 @@ const Login = () => {
 
             if (success) {
                 // Перенаправляем на главную страницу после успешного входа
-                navigate("/");
+                navigate("/profile");
             } else {
                 setError(authError || "Ошибка входа в систему");
             }

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import React from "react";
 import Logo from "../resource/logo";
 import "./css/Navbar.css";
@@ -6,11 +6,12 @@ import "./css/Style.css";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const { currentUser, logout } = useAuth();
 
     const handleLogout = () => {
         logout();
-        // Перенаправление на страницу входа происходит автоматически через ProtectedRoute
+        navigate("/");
     };
 
     return (
