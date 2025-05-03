@@ -11,21 +11,21 @@ const Minibar = () => {
         <div className="Minibar">
             <div className="mini-column">
                 <div className="colum-center icons">
-                    <NavLink className="minibar-icons-hover" to="/">
+                    <NavLink className="minibar-icons-hover" to="/posts">
                         <Post className="minibar-icons" />
                     </NavLink>
                     <span className="minibar-icons-text">Посты</span>
                 </div>
 
                 <div className="colum-center icons">
-                    <NavLink className="minibar-icons-hover" to="/">
+                    <NavLink className="minibar-icons-hover" to="/shedules">
                         <Shedual className="minibar-icons" />
                     </NavLink>
                     <span className="minibar-icons-text">План</span>
                 </div>
 
                 <div className="colum-center icons">
-                    <NavLink className="minibar-icons-hover" to="/">
+                    <NavLink className="minibar-icons-hover" to="/analytics">
                         <Analytics className="minibar-icons" />
                     </NavLink>
                     <span className="minibar-icons-text">Анализ</span>

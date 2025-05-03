@@ -47,19 +47,19 @@ const userService = {
 // Post-related API calls
 const postService = {
     getPosts: (page = 0, size = 10) => {
-        return apiClient.get(`/post?page=${page}&size=${size}`);
+        return apiClient.get(`/post-service/post?page=${page}&size=${size}`);
     },
 
     createPost: (postData) => {
-        return apiClient.post("/post", postData);
+        return apiClient.post("/post-service/post", postData);
     },
 
     getPostById: (postId) => {
-        return apiClient.get(`/post/${postId}`);
+        return apiClient.get(`/post-service/post/${postId}`);
     },
 
     publishPost: (postId) => {
-        return apiClient.post(`/post/${postId}/publish`);
+        return apiClient.post(`/post-service/post/${postId}/publish`);
     },
 };
 
@@ -71,7 +71,7 @@ const mediaService = {
         if (metadata) {
             formData.append("metadata", JSON.stringify(metadata));
         }
-        return apiClient.post("/media/files", formData, {
+        return apiClient.post("/media-storage-service/media/files", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -79,18 +79,18 @@ const mediaService = {
     },
 
     getMediaById: (mediaId) => {
-        return apiClient.get(`/media/files/${mediaId}`);
+        return apiClient.get(`/media-storage-service/media/files/${mediaId}`);
     },
 };
 
 // Social-related API calls
 const socialService = {
     getActiveAccounts: () => {
-        return apiClient.get("/social/active");
+        return apiClient.get("/social-integration-service/social/active");
     },
 
     linkAccount: (accountData) => {
-        return apiClient.post("/social/link", accountData);
+        return apiClient.post("/social-integration-service/social/link", accountData);
     },
 };
 

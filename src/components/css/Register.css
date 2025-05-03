@@ -1,10 +1,10 @@
 /* Стили для страницы регистрации */
 
 .btn-primary {
-    width: 100%;
+    /* width: 100%; */
     padding: 14px;
     border-radius: 8px;
-    /* margin-top: 15px; */
+    margin-top: 15px;
     background: linear-gradient(45deg, var(--accent-color), #5f00f7);
     position: relative;
     overflow: hidden;

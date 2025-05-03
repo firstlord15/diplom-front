@@ -1,0 +1,449 @@
+.post-detail-container {
+    padding: 20px 0;
+}
+
+.post-detail-header {
+    margin-bottom: 25px;
+}
+
+.btn-back {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background-color: rgba(80, 80, 80, 0.2);
+    color: var(--accent-color);
+}
+
+/* Блок с содержимым поста */
+.post-detail-content {
+    background-color: rgba(30, 30, 30, 0.3);
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.post-detail-title-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.post-detail-title {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.post-detail-meta {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-detail-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.post-detail-status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.status-published {
+    background-color: rgba(25, 135, 84, 0.2);
+    color: #4ecca3;
+}
+
+.status-draft {
+    background-color: rgba(108, 117, 125, 0.2);
+    color: #adb5bd;
+}
+
+.status-scheduled {
+    background-color: rgba(13, 110, 253, 0.2);
+    color: #6ea8fe;
+}
+
+.status-failed {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #ff6b6b;
+}
+
+.post-detail-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.btn-publish {
+    background-color: #198754;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-publish:hover {
+    background-color: #157347;
+}
+
+.btn-edit {
+    background-color: var(--accent-color);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+    background-color: #5f00f7;
+}
+
+.btn-delete {
+    background-color: transparent;
+    border: 1px solid #dc3545;
+    color: #ff6b6b;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+.post-detail-body {
+    margin-bottom: 25px;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.post-detail-body p {
+    margin-bottom: 15px;
+}
+
+.post-detail-tags {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.post-detail-tags h4 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.post-tag {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgba(112, 29, 244, 0.15);
+    color: var(--accent-color);
+    font-size: 0.9rem;
+}
+
+/* Медиа-файлы поста */
+.post-detail-media {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.post-detail-media h3 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.media-item {
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: rgba(30, 30, 30, 0.5);
+    border: 1px solid var(--border-color);
+}
+
+.media-content img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.media-caption {
+    padding: 10px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Социальные сети */
+.post-detail-social {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.post-detail-social h3 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.social-tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background-color: rgba(30, 30, 30, 0.5);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+.social-task-platform {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.platform-icon {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+}
+
+.platform-name {
+    color: var(--text-primary);
+}
+
+.social-task-status {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.status-completed {
+    background-color: rgba(25, 135, 84, 0.2);
+    color: #4ecca3;
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffca2c;
+}
+
+.status-processing {
+    background-color: rgba(13, 110, 253, 0.2);
+    color: #6ea8fe;
+}
+
+.status-failed {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #ff6b6b;
+}
+
+.social-task-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.social-task-link:hover {
+    text-decoration: underline;
+}
+
+.post-detail-published-info {
+    margin-top: 20px;
+    text-align: right;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* Форма редактирования */
+.post-edit-form {
+    background-color: rgba(30, 30, 30, 0.3);
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.post-edit-form h2 {
+    margin-bottom: 25px;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(112, 29, 244, 0.2);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #5f00f7;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(80, 80, 80, 0.2);
+}
+
+/* Уведомления об ошибках и предупреждения */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+}
+
+.error-message {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #ff6b6b;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    max-width: 500px;
+}
+
+.warning-message {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffca2c;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    max-width: 500px;
+}
+
+/* Анимация загрузки */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(112, 29, 244, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--accent-color);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .post-detail-content {
+        padding: 20px;
+    }
+
+    .post-detail-title {
+        font-size: 1.5rem;
+    }
+
+    .post-detail-actions {
+        flex-wrap: wrap;
+    }
+
+    .media-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .social-task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .social-task-status {
+        text-align: left;
+    }
+}

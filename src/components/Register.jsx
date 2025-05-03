@@ -150,9 +150,11 @@ const Register = () => {
                             {errors.confirmPassword && <small className="form-text error">{errors.confirmPassword}</small>}
                         </div>
 
-                        <button type="submit" className="btn btn-primary" disabled={isLoading}>
-                            {isLoading ? "Registering..." : "Register"}
-                        </button>
+                        <div className="d-flex f-end">
+                            <button type="submit" className="btn btn-primary" disabled={isLoading}>
+                                {isLoading ? "Registering..." : "Register"}
+                            </button>
+                        </div>
 
                         <div className="login-link">
                             Already have an account? <a href="/login">Log in</a>

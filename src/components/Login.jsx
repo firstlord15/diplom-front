@@ -68,9 +68,11 @@ const Login = () => {
                             <input type="password" className="form-control" id="password" required placeholder="Password" value={formData.password} onChange={handleChange} />
                         </div>
 
-                        <button type="submit" className="btn btn-primary" disabled={loading}>
-                            {loading ? "Logging in..." : "Login"}
-                        </button>
+                        <div className="d-flex f-end">
+                            <button type="submit" className="btn btn-primary" disabled={loading}>
+                                {loading ? "Logging in..." : "Login"}
+                            </button>
+                        </div>
 
                         <div className="login-link">
                             New to Here? <a href="/register">Create an account</a>

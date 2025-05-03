@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/Style.css";
 import "./css/Profile.css";
-import ProfileSkeleton from "./ProfileSkeleton";
+import ProfileSkeleton from "./Skeleton/ProfileSkeleton";
 import { userService } from "../services/api";
 
 const Profile = () => {
@@ -110,7 +110,7 @@ const Profile = () => {
                     <div className="profile-header">
                         <h2>User Profile</h2>
                         {!isEditing && (
-                            <button className="btn btn-primary edit-btn" onClick={() => setIsEditing(true)}>
+                            <button className="btn btn-primary edit-btn m-0" onClick={() => setIsEditing(true)}>
                                 Edit Profile
                             </button>
                         )}
@@ -172,7 +172,7 @@ const Profile = () => {
                                     </div>
 
                                     <div className="form-actions">
-                                        <button type="submit" className="btn btn-primary">
+                                        <button type="submit" className="btn m-0 btn-primary">
                                             Save Changes
                                         </button>
                                         <button

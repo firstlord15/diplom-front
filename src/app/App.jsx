@@ -1,14 +1,16 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Main from "../components/Main";
-import Minibar from "../components/Minibar";
+
 import "./App.css";
-import Login from "../components/Login";
+import Navbar from "../components/Navbar";
+import Minibar from "../components/Minibar";
 import Register from "../components/Register";
+import PostPage from "../components/PostPage";
 import Profile from "../components/Profile";
+import Main from "../components/Main";
+import Login from "../components/Login";
+import PostDetail from "../components/PostDetailPage";
 import ProtectedRoute from "../components/ProtectedRoute";
-import ProfileSkeleton from "../components/ProfileSkeleton";
 
 function App() {
     return (
@@ -57,18 +59,74 @@ function App() {
                     }
                 />
                 <Route
-                    path="/test"
-                    element={
-                        <div className="row container center">
-                            <ProfileSkeleton />
-                        </div>
-                    }
-                />
-                <Route
                     path="/register"
                     element={
                         <div className="row container center">
                             <Register />
+                        </div>
+                    }
+                />
+                <Route
+                    path="/posts"
+                    element={
+                        <div className="wrapper">
+                            <header className="App-header">
+                                <Navbar />
+                            </header>
+                            <main>
+                                <div className="row container center">
+                                    <Minibar />
+                                    <PostPage />
+                                </div>
+                            </main>
+                        </div>
+                    }
+                />
+                <Route
+                    path="/posts/:id"
+                    element={
+                        <ProtectedRoute>
+                            <div className="wrapper">
+                                <header className="App-header">
+                                    <Navbar />
+                                </header>
+                                <main>
+                                    <div className="row container center">
+                                        <Minibar />
+                                        <PostDetail />
+                                    </div>
+                                </main>
+                            </div>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/shedules"
+                    element={
+                        <div className="wrapper">
+                            <header className="App-header">
+                                <Navbar />
+                            </header>
+                            <main>
+                                <div className="row container center">
+                                    <Minibar />
+                                </div>
+                            </main>
+                        </div>
+                    }
+                />
+                <Route
+                    path="/analytics"
+                    element={
+                        <div className="wrapper">
+                            <header className="App-header">
+                                <Navbar />
+                            </header>
+                            <main>
+                                <div className="row container center">
+                                    <Minibar />
+                                </div>
+                            </main>
                         </div>
                     }
                 />

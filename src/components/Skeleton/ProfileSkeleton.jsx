@@ -1,4 +1,4 @@
-import "./css/Skeleton.css";
+import "../css/Skeleton.css";
 
 const ProfileSkeleton = () => {
     return (
