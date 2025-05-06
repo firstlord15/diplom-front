@@ -12,15 +12,30 @@ const PostDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [editing, setEditing] = useState(false);
+    const [socialAccounts, setSocialAccounts] = useState([]);
     const [editForm, setEditForm] = useState({
         title: "",
         content: "",
+        type: "TEXT",
         tags: "",
+        mediaIds: [],
+        mediaCaptions: [],
+        socialAccountIds: [],
     });
 
     useEffect(() => {
+        fetchSocialAccounts();
         fetchPost();
     }, [id]);
+
+    const fetchSocialAccounts = async () => {
+        try {
+            const response = await axios.get("/social-service/social/active/" + currentUser?.id); // 1 - ID текущего пользователя
+            setSocialAccounts(response.data || []);
+        } catch (err) {
+            console.error("Ошибка при загрузке социальных аккаунтов:", err);
+        }
+    };
 
     const fetchPost = async () => {
         try {
@@ -37,7 +52,12 @@ const PostDetail = () => {
             setEditForm({
                 title: response.data.title,
                 content: response.data.content,
+                type: response.data.type,
                 tags: response.data.tags ? response.data.tags.join(", ") : "",
+                mediaIds: response.data.media ? response.data.media.map((m) => m.mediaId) : [],
+                mediaCaptions: response.data.media ? response.data.media.map((m) => m.caption || "") : [],
+                socialAccountIds: response.data.socialTasks ? response.data.socialTasks.map((t) => t.socialAccountId) : [],
+                scheduledAt: response.data.scheduledAt || "",
             });
 
             setError(null);
@@ -52,6 +72,7 @@ const PostDetail = () => {
     const handlePublish = async () => {
         try {
             setLoading(true);
+            console.log("POST ID:" + id);
             await axios.post(
                 `/post-service/post/${id}/publish`,
                 {},
@@ -108,18 +129,23 @@ const PostDetail = () => {
                 .map((tag) => tag.trim())
                 .filter((tag) => tag.length > 0);
 
-            await axios.put(
-                `/post-service/post/${id}`,
-                {
-                    ...editForm,
-                    tags: tagsArray,
+            // Формируем полный объект запроса
+            const postData = {
+                title: editForm.title,
+                content: editForm.content,
+                type: editForm.type,
+                tags: tagsArray,
+                mediaIds: editForm.mediaIds,
+                mediaCaptions: editForm.mediaCaptions,
+                socialAccountIds: editForm.socialAccountIds,
+                scheduledAt: editForm.scheduledAt || null,
+            };
+
+            await axios.put(`/post-service/post/${id}`, postData, {
+                headers: {
+                    "X-User-Id": currentUser?.id || 0,
                 },
-                {
-                    headers: {
-                        "X-User-Id": currentUser?.id || 0,
-                    },
-                }
-            );
+            });
 
             setEditing(false);
             fetchPost(); // Обновляем данные после успешного обновления
@@ -218,7 +244,37 @@ const PostDetail = () => {
                                         <label htmlFor="title">Заголовок</label>
                                         <input type="text" className="form-control" id="title" name="title" value={editForm.title} onChange={handleInputChange} required />
                                     </div>
-
+                                    <div className="form-group">
+                                        <label>Публиковать в соцсети</label>
+                                        <div className="social-accounts-list">
+                                            {socialAccounts.map((account) => (
+                                                <div key={account.id} className="social-account-item">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`social-${account.id}`}
+                                                        name="socialAccountIds"
+                                                        value={account.id}
+                                                        // Проверяем, есть ли этот аккаунт в списке выбранных
+                                                        checked={editForm.socialAccountIds.includes(account.id)}
+                                                        onChange={(e) => {
+                                                            if (e.target.checked) {
+                                                                setEditForm((prev) => ({
+                                                                    ...prev,
+                                                                    socialAccountIds: [...prev.socialAccountIds, account.id],
+                                                                }));
+                                                            } else {
+                                                                setEditForm((prev) => ({
+                                                                    ...prev,
+                                                                    socialAccountIds: prev.socialAccountIds.filter((id) => id !== account.id),
+                                                                }));
+                                                            }
+                                                        }}
+                                                    />
+                                                    <label htmlFor={`social-${account.id}`}>{account.platform === "TELEGRAM" ? "Telegram" : account.platform}</label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
                                     <div className="form-group">
                                         <label htmlFor="content">Содержание</label>
                                         <textarea className="form-control" id="content" name="content" value={editForm.content} onChange={handleInputChange} rows="8" required />
@@ -229,8 +285,44 @@ const PostDetail = () => {
                                         <input type="text" className="form-control" id="tags" name="tags" value={editForm.tags} onChange={handleInputChange} placeholder="новость, акция, ..." />
                                     </div>
 
+                                    {/* Скрытые поля для хранения данных */}
+                                    <input type="hidden" name="type" value={editForm.type} />
+                                    <input type="hidden" name="scheduledAt" value={editForm.scheduledAt} />
+
+                                    {/* Если нужно показать выбор социальных сетей */}
+                                    <div className="form-group">
+                                        <label>Публиковать в соцсети</label>
+                                        <div className="social-accounts-list">
+                                            {socialAccounts.map((account) => (
+                                                <div key={account.id} className="social-account-item">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`social-${account.id}`}
+                                                        name="socialAccountIds"
+                                                        value={account.id}
+                                                        checked={editForm.socialAccountIds.includes(account.id)}
+                                                        onChange={(e) => {
+                                                            if (e.target.checked) {
+                                                                setEditForm((prev) => ({
+                                                                    ...prev,
+                                                                    socialAccountIds: [...prev.socialAccountIds, account.id],
+                                                                }));
+                                                            } else {
+                                                                setEditForm((prev) => ({
+                                                                    ...prev,
+                                                                    socialAccountIds: prev.socialAccountIds.filter((id) => id !== account.id),
+                                                                }));
+                                                            }
+                                                        }}
+                                                    />
+                                                    <label htmlFor={`social-${account.id}`}>{account.platform === "TELEGRAM" ? "Telegram" : account.platform}</label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
                                     <div className="form-actions">
-                                        <button type="submit" className="btn btn-primary" disabled={loading}>
+                                        <button type="submit" className="btn btn-primary m-0" disabled={loading}>
                                             {loading ? "Сохранение..." : "Сохранить изменения"}
                                         </button>
                                         <button type="button" className="btn btn-secondary" onClick={() => setEditing(false)} disabled={loading}>

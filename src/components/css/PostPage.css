@@ -6,10 +6,9 @@
 }
 
 .content {
-    background-color: var(--block-background-color-dark);
-    border: 1px solid var(--block-border-color-dark);
     padding: 30px;
     margin-top: 20px;
+    max-width: 100%;
 }
 
 /* Заголовок страницы */
@@ -63,7 +62,7 @@
 }
 
 .form-control {
-    width: 90%;
+    /* width: 90% !important; */
     padding: 10px 15px;
     background-color: var(--input-bg);
     border: 1px solid var(--border-color);
@@ -226,5 +225,145 @@
 
     .post-date {
         margin-top: 5px;
+    }
+}
+
+/* Стилизация блока с социальными сетями */
+.social-accounts-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.social-account-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(30, 30, 30, 0.4);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.social-account-item:hover {
+    background-color: rgba(30, 30, 30, 0.6);
+}
+
+.social-account-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent-color);
+}
+
+.social-account-item label {
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+/* Стили для социальных платформ */
+.platform-telegram {
+    color: #0088cc;
+}
+
+.platform-instagram {
+    color: #e1306c;
+}
+
+/* Социальные задачи на странице деталей поста */
+.social-task-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: rgba(30, 30, 30, 0.3);
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.platform-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(112, 29, 244, 0.15);
+}
+
+.platform-icon.telegram {
+    background-color: rgba(0, 136, 204, 0.15);
+    color: #0088cc;
+}
+
+.platform-icon.instagram {
+    background-color: rgba(225, 48, 108, 0.15);
+    color: #e1306c;
+}
+
+.platform-name {
+    font-weight: 500;
+    min-width: 100px;
+}
+
+.social-task-status {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffca2c;
+}
+
+.status-processing {
+    background-color: rgba(13, 110, 253, 0.2);
+    color: #6ea8fe;
+}
+
+.status-completed {
+    background-color: rgba(25, 135, 84, 0.2);
+    color: #4ecca3;
+}
+
+.status-failed {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #ff6b6b;
+}
+
+.social-task-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.social-task-link:hover {
+    text-decoration: underline;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .social-task-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .social-task-status {
+        margin-top: 10px;
+    }
+
+    .social-task-link {
+        margin-top: 10px;
     }
 }

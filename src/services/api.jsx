@@ -86,11 +86,15 @@ const mediaService = {
 // Social-related API calls
 const socialService = {
     getActiveAccounts: () => {
-        return apiClient.get("/social-integration-service/social/active");
+        return apiClient.get("/social-service/social/active");
     },
 
     linkAccount: (accountData) => {
-        return apiClient.post("/social-integration-service/social/link", accountData);
+        return apiClient.post("/social-service/social/link", accountData);
+    },
+
+    unlinkAccount: (accountId) => {
+        return apiClient.delete(`/social-service/social/${accountId}`);
     },
 };
 

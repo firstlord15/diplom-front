@@ -15,10 +15,6 @@ form {
     border: 1px solid var(--block-border-color-dark);
 }
 
-.form-group {
-    margin-bottom: 25px;
-}
-
 label {
     display: block;
     margin-bottom: 8px;

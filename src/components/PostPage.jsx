@@ -11,17 +11,21 @@ const PostPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [socialAccounts, setSocialAccounts] = useState([]);
     const [newPost, setNewPost] = useState({
         title: "",
         content: "",
         type: "TEXT",
         tags: "",
         mediaIds: [],
+        mediaCaptions: [],
+        socialAccountIds: [],
     });
 
-    // Загрузка постов при монтировании компонента
+    // Загрузка постов и социальных аккаунтов при монтировании компонента
     useEffect(() => {
         fetchPosts();
+        fetchSocialAccounts();
     }, []);
 
     const fetchPosts = async () => {
@@ -39,6 +43,15 @@ const PostPage = () => {
             setError("Не удалось загрузить посты. Пожалуйста, попробуйте позже.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchSocialAccounts = async () => {
+        try {
+            const response = await axios.get("/social-service/social/active/" + (currentUser?.id || 1));
+            setSocialAccounts(response.data || []);
+        } catch (err) {
+            console.error("Ошибка при загрузке социальных аккаунтов:", err);
         }
     };
 
@@ -71,6 +84,8 @@ const PostPage = () => {
                 type: "TEXT",
                 tags: "",
                 mediaIds: [],
+                mediaCaptions: [],
+                socialAccountIds: [],
             });
             setShowCreateForm(false);
             fetchPosts();
@@ -88,6 +103,22 @@ const PostPage = () => {
             ...prev,
             [name]: value,
         }));
+    };
+
+    const handleSocialAccountChange = (accountId, checked) => {
+        setNewPost((prev) => {
+            if (checked) {
+                return {
+                    ...prev,
+                    socialAccountIds: [...prev.socialAccountIds, accountId],
+                };
+            } else {
+                return {
+                    ...prev,
+                    socialAccountIds: prev.socialAccountIds.filter((id) => id !== accountId),
+                };
+            }
+        });
     };
 
     const formatDate = (dateString) => {
@@ -130,8 +161,8 @@ const PostPage = () => {
 
     return (
         <div className="Main">
-            <div className="post-container">
-                <div className="content br-25 h-1000">
+            <div className="container">
+                <div className="content br-25">
                     <h1 className="page-title">Посты</h1>
 
                     {error && <div className="error-message">{error}</div>}
@@ -171,8 +202,22 @@ const PostPage = () => {
                                     <input type="text" className="form-control" id="tags" name="tags" value={newPost.tags} onChange={handleInputChange} placeholder="новость, акция, ..." />
                                 </div>
 
+                                {socialAccounts.length > 0 && (
+                                    <div className="form-group">
+                                        <label>Публиковать в соцсети</label>
+                                        <div className="social-accounts-list">
+                                            {socialAccounts.map((account) => (
+                                                <div key={account.id} className="social-account-item">
+                                                    <input type="checkbox" id={`social-${account.id}`} name="socialAccountIds" value={account.id} checked={newPost.socialAccountIds.includes(account.id)} onChange={(e) => handleSocialAccountChange(account.id, e.target.checked)} />
+                                                    <label htmlFor={`social-${account.id}`}>{account.platform === "TELEGRAM" ? "Telegram" : account.platform}</label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div className="form-actions">
-                                    <button type="submit" className="m-0 btn btn-primary" disabled={loading}>
+                                    <button type="submit" className="btn btn-primary m-0" disabled={loading}>
                                         {loading ? "Сохранение..." : "Сохранить"}
                                     </button>
                                     <button type="button" className="btn btn-secondary" onClick={() => setShowCreateForm(false)} disabled={loading}>

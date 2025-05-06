@@ -1,0 +1,175 @@
+.telegram-connect-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--block-border-color-dark);
+}
+
+.telegram-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.telegram-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.btn-add {
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-add:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.telegram-form {
+    background-color: rgba(30, 30, 30, 0.5);
+    border: 1px solid var(--block-border-color-dark);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.helper-text {
+    color: var(--text-secondary);
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.telegram-accounts-list {
+    margin-top: 20px;
+}
+
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: rgba(30, 30, 30, 0.5);
+    border: 1px solid var(--block-border-color-dark);
+    border-radius: 8px;
+}
+
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.account-platform {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.platform-icon {
+    color: #2aabee;
+    padding: 6px 7px 5px 4px;
+}
+
+.platform-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.account-details {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.account-id {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.account-status {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.account-status.active {
+    background-color: rgba(25, 135, 84, 0.2);
+    color: #4ecca3;
+}
+
+.account-status.inactive {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #ff6b6b;
+}
+
+.btn-delete {
+    background-color: transparent;
+    border: 1px solid #dc3545;
+    color: #ff6b6b;
+    padding: 6px 12px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+.no-accounts {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-secondary);
+    background-color: rgba(30, 30, 30, 0.3);
+    border-radius: 8px;
+    border: 1px dashed var(--block-border-color-dark);
+}
+
+.telegram-help {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(30, 30, 30, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--block-border-color-dark);
+}
+
+.telegram-help h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.telegram-help ol {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.telegram-help li {
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.telegram-help p {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.important-note {
+    color: #ffca2c;
+    font-weight: 500;
+    margin-top: 15px;
+}
+
+.telegram-help ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.telegram-help ul li {
+    margin-bottom: 5px;
+}

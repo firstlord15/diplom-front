@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./css/Style.css";
 import "./css/Profile.css";
 import ProfileSkeleton from "./Skeleton/ProfileSkeleton";
+import TelegramAccountConnect from "./TelegramAccountConnect";
 import { userService } from "../services/api";
 
 const Profile = () => {
@@ -104,7 +105,7 @@ const Profile = () => {
     return (
         <div className="Profile">
             <div className="container">
-                <div className="content br-25 h-1000">
+                <div className="content br-25">
                     {error && <div className="error-message">{error}</div>}
 
                     <div className="profile-header">
@@ -120,11 +121,6 @@ const Profile = () => {
                         <div className="profile-column left-column">
                             <div className="profile-photo">
                                 <img src="https://free-png.ru/wp-content/uploads/2021/12/free-png.ru-307.png" alt="avatar" />
-                                {isEditing && (
-                                    <div className="photo-edit">
-                                        <button className="btn btn-small">Change Photo</button>
-                                    </div>
-                                )}
                             </div>
 
                             <div className="profile-stats">
@@ -239,6 +235,7 @@ const Profile = () => {
                                     </div>
                                 )}
                             </div>
+                            <TelegramAccountConnect />
                         </div>
                     </div>
                 </div>
