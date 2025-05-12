@@ -11,6 +11,8 @@ const apiClient = axios.create({
     timeout: 10000, // 10 секунд таймаут
 });
 
+const telegram = "TELEGRAM";
+
 // Add request interceptor for authentication
 apiClient.interceptors.request.use(
     (config) => {
@@ -46,6 +48,10 @@ const userService = {
 
 // Post-related API calls
 const postService = {
+    getUserPostsCount: (userId) => {
+        return apiClient.get(`/post-service/post/count/${userId}`);
+    },
+
     getPosts: (page = 0, size = 10) => {
         return apiClient.get(`/post-service/post?page=${page}&size=${size}`);
     },
@@ -85,16 +91,39 @@ const mediaService = {
 
 // Social-related API calls
 const socialService = {
-    getActiveAccounts: () => {
-        return apiClient.get("/social-service/social/active");
+    getAccounts: (userId) => {
+        if (!userId) {
+            console.error("getAccounts: userId не предоставлен");
+            return Promise.reject(new Error("userId не предоставлен"));
+        }
+
+        return apiClient.get(`/social-service/social/${userId}/${telegram}`);
     },
 
+    // В socialService
+    activateAccount: (accountId) => {
+        return apiClient.put(`/social-service/social/active/${accountId}/${telegram}`);
+    },
+
+    disActivateAccount: (accountId) => {
+        return apiClient.put(`/social-service/social/disActive/${accountId}/${telegram}`);
+    },
+
+    toggleAccountStatus: (userId, platform) => {
+        return apiClient.put(`/social-service/social/${userId}/${platform}/toggle`);
+    },
+
+    // Обновление метода для привязки аккаунта
     linkAccount: (accountData) => {
+        if (!accountData.userId) {
+            console.error("linkAccount: userId не предоставлен в данных аккаунта");
+            return Promise.reject(new Error("userId не предоставлен"));
+        }
         return apiClient.post("/social-service/social/link", accountData);
     },
 
-    unlinkAccount: (accountId) => {
-        return apiClient.delete(`/social-service/social/${accountId}`);
+    unlinkAccount: (userId) => {
+        return apiClient.delete(`/social-service/social/${userId}/${telegram}`);
     },
 };
 

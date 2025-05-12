@@ -1,46 +1,74 @@
 import React, { useState, useEffect } from "react";
 import { socialService } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 import "./css/TelegramConnect.css";
 
 const TelegramAccountConnect = () => {
+    const { currentUser } = useAuth();
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showForm, setShowForm] = useState(false);
     const [newAccount, setNewAccount] = useState({
-        externalId: "", // Telegram chat ID
+        externalId: "",
         platform: "TELEGRAM",
-        active: true,
+        userId: currentUser?.id,
+        active: false,
     });
 
-    const [showForm, setShowForm] = useState(false);
-    // Загрузка существующих аккаунтов
     useEffect(() => {
         const fetchAccounts = async () => {
+            if (!currentUser) {
+                setLoading(false);
+                return;
+            }
             try {
                 setLoading(true);
-                console.log("Запрос на получение аккаунтов...");
-                const response = await socialService.getActiveAccounts();
+                console.log("Запрос на получение аккаунтов Telegram...");
+                const response = await socialService.getAccounts(currentUser?.id);
                 console.log("Ответ API:", response.data);
 
-                // Проверяем, что response.data - это массив
-                if (Array.isArray(response.data)) {
-                    const telegramAccounts = response.data.filter((account) => account.platform === "TELEGRAM");
-                    console.log("Отфильтрованные Telegram аккаунты:", telegramAccounts);
-                    setAccounts(telegramAccounts);
+                // Преобразуем ответ в массив, если получили один объект
+                let accountsData = response.data;
+                if (!response.data) {
+                    console.log("Пустой ответ от сервера - нет подключенных аккаунтов");
+                    setAccounts([]);
+                    return;
+                }
+
+                // Если ответ - пустая строка, считаем, что нет аккаунтов
+                if (typeof response.data === "string" && response.data.trim() === "") {
+                    console.log("Пустая строка в ответе - нет подключенных аккаунтов");
+                    setAccounts([]);
+                    return;
+                }
+
+                if (!Array.isArray(accountsData) && accountsData && typeof accountsData === "object") {
+                    // Если получили один объект, преобразуем его в массив
+                    accountsData = [accountsData];
+                    console.log("Преобразовано в массив:", accountsData);
+                }
+
+                // Устанавливаем аккаунты напрямую, без дополнительной фильтрации
+                if (Array.isArray(accountsData)) {
+                    console.log("Аккаунты Telegram:", accountsData);
+                    setAccounts(accountsData);
                 } else {
                     console.error("Неожиданный формат данных:", response.data);
-                    setError("Получен неверный формат данных от сервера");
+                    // В случае неожиданного формата просто показываем пустой список
+                    setAccounts([]);
                 }
             } catch (err) {
                 console.error("Ошибка при загрузке аккаунтов Telegram:", err);
-                setError("Не удалось загрузить подключенные каналы Telegram: " + (err.message || "Неизвестная ошибка"));
+                // Не устанавливаем ошибку, просто оставляем пустой массив аккаунтов
+                setAccounts([]);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchAccounts();
-    }, []);
+    }, [currentUser]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -52,9 +80,30 @@ const TelegramAccountConnect = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Проверка на пустое значение
+        if (!newAccount.externalId.trim()) {
+            setError("ID канала не может быть пустым");
+            return;
+        }
+
+        // Проверка на дубликаты
+        const isDuplicate = accounts.some((account) => account.externalId === newAccount.externalId);
+
+        if (isDuplicate) {
+            setError("Этот канал уже подключен");
+            return;
+        }
+
         try {
             setLoading(true);
-            const response = await socialService.linkAccount(newAccount);
+            // Добавляем ID пользователя, если его нет
+            const accountData = {
+                ...newAccount,
+                userId: currentUser?.id,
+            };
+
+            const response = await socialService.linkAccount(accountData);
 
             // Добавляем новый аккаунт в список
             setAccounts([...accounts, response.data]);
@@ -63,9 +112,9 @@ const TelegramAccountConnect = () => {
             setNewAccount({
                 externalId: "",
                 platform: "TELEGRAM",
+                userId: currentUser?.id,
                 active: true,
             });
-
             setShowForm(false);
             setError(null);
         } catch (err) {
@@ -94,16 +143,51 @@ const TelegramAccountConnect = () => {
         }
     };
 
+    const handleToggleAccountStatus = async (account) => {
+        try {
+            setLoading(true);
+
+            // Используем API для переключения статуса аккаунта
+            const response = await socialService.toggleAccountStatus(currentUser?.id, "telegram");
+
+            // Обновляем статус аккаунта в списке
+            setAccounts(accounts.map((acc) => (acc.id === account.id ? response.data : acc)));
+
+            setError(null);
+        } catch (err) {
+            console.error("Error toggling account status:", err);
+            setError("Не удалось изменить статус канала Telegram");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="telegram-connect-container">
             <div className="telegram-header">
                 <h3>Подключенные каналы Telegram</h3>
-                <button className="btn btn-add" onClick={() => setShowForm(!showForm)}>
+                <button className="btn btn-add" onClick={() => setShowForm(!showForm)} disabled={loading}>
                     {showForm ? "Отмена" : "Подключить канал"}
                 </button>
             </div>
 
             {error && <div className="error-message">{error}</div>}
+
+            {/* {showConfirmDialog && (
+                <div className="confirm-dialog-overlay">
+                    <div className="confirm-dialog">
+                        <p>Вы уверены, что хотите отключить этот канал Telegram?</p>
+                        <div className="confirm-dialog-buttons">
+                            <button className="btn btn-succes mr-1" onClick={handleCancelDelete} disabled={loading}>
+                                Отмена
+                            </button>
+                            <button className="btn btn-delete" onClick={handleConfirmDelete} disabled={loading}>
+                                {loading ? "Удаление..." : "Подтвердить"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )} */}
 
             {showForm && (
                 <div className="telegram-form">
@@ -129,8 +213,8 @@ const TelegramAccountConnect = () => {
                 ) : accounts.length === 0 ? (
                     <div className="no-accounts">У вас пока нет подключенных каналов Telegram</div>
                 ) : (
-                    accounts.map((account) => (
-                        <div className="account-item" key={account.id}>
+                    accounts.map((account, index) => (
+                        <div className="account-item" key={`${account.id}_${index}`}>
                             <div className="account-info">
                                 <div className="account-platform">
                                     <svg className="platform-icon" viewBox="0 0 24 24" width="24" height="24">
@@ -146,9 +230,17 @@ const TelegramAccountConnect = () => {
                                     <span className={`account-status ${account.active ? "active" : "inactive"}`}>{account.active ? "Активен" : "Неактивен"}</span>
                                 </div>
                             </div>
-                            <button className="btn btn-delete" onClick={() => handleDeleteAccount(account.id)} disabled={loading}>
-                                Отключить
-                            </button>
+                            <div className="account-actions">
+                                {/* Кнопка для активации/деактивации аккаунта */}
+                                <button className={`btn mr-1 ${account.active ? "btn-details" : "btn-succes"}`} onClick={() => handleToggleAccountStatus(account)} disabled={loading}>
+                                    {account.active ? "Деактивировать" : "Активировать"}
+                                </button>
+
+                                {/* Кнопка для удаления аккаунта */}
+                                <button className="btn btn-delete" onClick={() => handleDeleteAccount(account.id)} disabled={loading}>
+                                    Удалить
+                                </button>
+                            </div>
                         </div>
                     ))
                 )}
@@ -164,7 +256,9 @@ const TelegramAccountConnect = () => {
                     <li>
                         Найдите ID канала - это можно сделать одним из следующих способов:
                         <ul>
-                            <li>Отправьте сообщение в канал, затем перешлите его боту @getidsbot</li>
+                            <li>
+                                Отправьте сообщение в канал, затем перешлите его боту <strong>@getidsbot</strong>
+                            </li>
                             <li>Откройте ваш канал в веб-версии Telegram и найдите числа после "c/" в URL</li>
                         </ul>
                     </li>

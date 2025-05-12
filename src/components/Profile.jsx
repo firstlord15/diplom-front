@@ -3,13 +3,15 @@ import "./css/Style.css";
 import "./css/Profile.css";
 import ProfileSkeleton from "./Skeleton/ProfileSkeleton";
 import TelegramAccountConnect from "./TelegramAccountConnect";
-import { userService } from "../services/api";
+import { userService, postService } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 const Profile = () => {
+    const { currentUser } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
     const [profileData, setProfileData] = useState(null);
-
-    const [recentPosts, setRecentPosts] = useState([]);
+    const [postsCount, setPostsCount] = useState(0);
+    const [recentPosts] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState(profileData);
     const [error, setError] = useState(null);
@@ -17,7 +19,8 @@ const Profile = () => {
     // Загружаем данные при монтировании компонента
     useEffect(() => {
         fetchUserData();
-    }, []);
+        fetchUserPostsCount();
+    }, [currentUser]);
 
     const fetchUserData = async () => {
         try {
@@ -43,15 +46,25 @@ const Profile = () => {
 
             setError(null);
 
-            // Загрузим и посты (если API готово)
+            // Загрузка недавних постов, если такая функция есть
             fetchUserPosts();
         } catch (err) {
             console.error("Failed to fetch user data:", err);
             setError("Failed to load user profile. Please try again later.");
         } finally {
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 100);
+            setIsLoading(false);
+        }
+    };
+
+    const fetchUserPostsCount = async () => {
+        if (!currentUser) return;
+
+        try {
+            const response = await postService.getUserPostsCount(currentUser.id);
+            setPostsCount(response.data); // Предполагаем, что API возвращает число
+        } catch (err) {
+            console.error("Failed to fetch posts count:", err);
+            // Не устанавливаем ошибку, чтобы не мешать основному интерфейсу
         }
     };
 
@@ -125,7 +138,7 @@ const Profile = () => {
 
                             <div className="profile-stats">
                                 <div className="stat-item">
-                                    <span className="stat-value">{recentPosts.length || 0}</span>
+                                    <span className="stat-value">{postsCount}</span>
                                     <span className="stat-label">Posts</span>
                                 </div>
                                 <div className="stat-item">

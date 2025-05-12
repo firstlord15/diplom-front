@@ -65,6 +65,11 @@
     gap: 8px;
 }
 
+.account-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
 .account-platform {
     display: flex;
     align-items: center;
@@ -110,15 +115,28 @@
 
 .btn-delete {
     background-color: transparent;
-    border: 1px solid #dc3545;
-    color: #ff6b6b;
-    padding: 6px 12px;
+    border: 1px solid #dc3545 !important;
+    color: #ff6b6b !important;
+    padding: 10px 25px !important;
     border-radius: 5px;
     transition: all 0.2s ease;
 }
 
 .btn-delete:hover {
     background-color: rgba(220, 53, 69, 0.2);
+}
+
+.btn-succes {
+    background-color: transparent;
+    border: 1px solid #00ae13 !important;
+    color: #6aff7a !important;
+    padding: 10px 25px !important;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-succes:hover {
+    background-color: #42ff5815;
 }
 
 .no-accounts {
