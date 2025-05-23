@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./css/Style.css";
 import "./css/Register.css";
 import { userService } from "../services/api";
 
 const Register = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || "/";
+
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -82,7 +85,7 @@ const Register = () => {
             localStorage.setItem("token", response.data.token);
 
             // Redirect to login or home page
-            navigate("/");
+            navigate(from, { replace: true });
         } catch (err) {
             console.error("Registration error:", err);
 

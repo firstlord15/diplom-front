@@ -129,7 +129,7 @@ const TelegramAccountConnect = () => {
         if (window.confirm("Вы уверены, что хотите отключить этот канал Telegram?")) {
             try {
                 setLoading(true);
-                await socialService.unlinkAccount(accountId);
+                await socialService.unlinkAccount(currentUser?.id);
 
                 // Удаляем аккаунт из списка
                 setAccounts(accounts.filter((account) => account.id !== accountId));
@@ -172,22 +172,6 @@ const TelegramAccountConnect = () => {
             </div>
 
             {error && <div className="error-message">{error}</div>}
-
-            {/* {showConfirmDialog && (
-                <div className="confirm-dialog-overlay">
-                    <div className="confirm-dialog">
-                        <p>Вы уверены, что хотите отключить этот канал Telegram?</p>
-                        <div className="confirm-dialog-buttons">
-                            <button className="btn btn-succes mr-1" onClick={handleCancelDelete} disabled={loading}>
-                                Отмена
-                            </button>
-                            <button className="btn btn-delete" onClick={handleConfirmDelete} disabled={loading}>
-                                {loading ? "Удаление..." : "Подтвердить"}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )} */}
 
             {showForm && (
                 <div className="telegram-form">
@@ -232,7 +216,7 @@ const TelegramAccountConnect = () => {
                             </div>
                             <div className="account-actions">
                                 {/* Кнопка для активации/деактивации аккаунта */}
-                                <button className={`btn mr-1 ${account.active ? "btn-details" : "btn-succes"}`} onClick={() => handleToggleAccountStatus(account)} disabled={loading}>
+                                <button className={`btn mr-1 btn-details`} onClick={() => handleToggleAccountStatus(account)} disabled={loading}>
                                     {account.active ? "Деактивировать" : "Активировать"}
                                 </button>
 

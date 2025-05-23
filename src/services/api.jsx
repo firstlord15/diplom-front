@@ -101,14 +101,6 @@ const socialService = {
     },
 
     // В socialService
-    activateAccount: (accountId) => {
-        return apiClient.put(`/social-service/social/active/${accountId}/${telegram}`);
-    },
-
-    disActivateAccount: (accountId) => {
-        return apiClient.put(`/social-service/social/disActive/${accountId}/${telegram}`);
-    },
-
     toggleAccountStatus: (userId, platform) => {
         return apiClient.put(`/social-service/social/${userId}/${platform}/toggle`);
     },

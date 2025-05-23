@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./css/Style.css";
 import "./css/Login.css";
 import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { login, loading, error: authError } = useAuth();
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
     const [error, setError] = useState("");
+
+    // Получаем сохраненный путь из состояния location
+    const from = location.state?.from || "/";
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -33,8 +37,8 @@ const Login = () => {
             });
 
             if (success) {
-                // Перенаправляем на главную страницу после успешного входа
-                navigate("/profile");
+                // Перенаправляем на сохраненный путь после успешного входа
+                navigate(from, { replace: true });
             } else {
                 setError(authError || "Ошибка входа в систему");
             }

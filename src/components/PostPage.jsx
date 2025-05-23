@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import MediaUploader from "./MediaUploader";
 import "./css/PostPage.css";
 
 const PostPage = () => {
@@ -21,6 +22,9 @@ const PostPage = () => {
         mediaCaptions: [],
         socialAccountIds: [],
     });
+
+    const [uploadedMedia, setUploadedMedia] = useState([]);
+    const [uploadError, setUploadError] = useState(null);
 
     // Загрузка постов и социальных аккаунтов при монтировании компонента
     useEffect(() => {
@@ -69,6 +73,7 @@ const PostPage = () => {
             const postData = {
                 ...newPost,
                 tags: tagsArray,
+                // mediaIds и mediaCaptions уже установлены при успешной загрузке
             };
 
             await axios.post("/post-service/post", postData, {
@@ -87,6 +92,7 @@ const PostPage = () => {
                 mediaCaptions: [],
                 socialAccountIds: [],
             });
+            setUploadedMedia([]);
             setShowCreateForm(false);
             fetchPosts();
         } catch (err) {
@@ -96,7 +102,6 @@ const PostPage = () => {
             setLoading(false);
         }
     };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewPost((prev) => ({
@@ -159,6 +164,32 @@ const PostPage = () => {
         );
     }
 
+    //media service
+    const handleMediaUploadSuccess = (media) => {
+        setUploadedMedia(media);
+        setUploadError(null);
+
+        // Обновляем состояние newPost, добавляя ID медиа-файлов
+        setNewPost((prev) => ({
+            ...prev,
+            mediaIds: media.map((item) => item.id),
+            mediaCaptions: Array(media.length).fill(""),
+        }));
+    };
+
+    const handleMediaUploadError = (error) => {
+        setUploadError(error);
+    };
+
+    const handleCaptionChange = (index, caption) => {
+        const updatedCaptions = [...newPost.mediaCaptions];
+        updatedCaptions[index] = caption;
+        setNewPost((prev) => ({
+            ...prev,
+            mediaCaptions: updatedCaptions,
+        }));
+    };
+
     return (
         <div className="Main">
             <div className="container">
@@ -200,6 +231,29 @@ const PostPage = () => {
                                 <div className="form-group">
                                     <label htmlFor="tags">Теги (через запятую)</label>
                                     <input type="text" className="form-control" id="tags" name="tags" value={newPost.tags} onChange={handleInputChange} placeholder="новость, акция, ..." />
+                                </div>
+
+                                {/* Блок для загрузки медиа */}
+                                <div className="form-group">
+                                    <label>Медиа-файлы</label>
+                                    <MediaUploader onUploadSuccess={handleMediaUploadSuccess} onError={handleMediaUploadError} />
+
+                                    {uploadError && <div className="error-message">{uploadError}</div>}
+
+                                    {/* Отображение загруженных медиа и поля для описаний */}
+                                    {uploadedMedia.length > 0 && (
+                                        <div className="uploaded-media">
+                                            <h4>Загруженные медиа</h4>
+                                            {uploadedMedia.map((media, index) => (
+                                                <div key={index} className="uploaded-media-item">
+                                                    <div className="media-preview">{media.type === "IMAGE" ? <img src={media.url} alt={media.filename} /> : <div className="media-icon">{media.filename}</div>}</div>
+                                                    <div className="media-caption-input">
+                                                        <input type="text" placeholder="Описание медиа" value={newPost.mediaCaptions[index] || ""} onChange={(e) => handleCaptionChange(index, e.target.value)} />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {socialAccounts.length > 0 && (

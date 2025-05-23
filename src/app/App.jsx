@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 import "./App.css";
 import Navbar from "../components/Navbar";
@@ -16,20 +16,40 @@ function App() {
     return (
         <div className="App">
             <Routes>
+                {/* Публичные маршруты */}
+                <Route
+                    path="/login"
+                    element={
+                        <div className="row container center">
+                            <Login />
+                        </div>
+                    }
+                />
+                <Route
+                    path="/register"
+                    element={
+                        <div className="row container center">
+                            <Register />
+                        </div>
+                    }
+                />
+                {/* Защищенные маршруты */}
                 <Route
                     path="/"
                     element={
-                        <div className="wrapper">
-                            <header className="App-header">
-                                <Navbar />
-                            </header>
-                            <main>
-                                <div className="row container center">
-                                    <Minibar />
-                                    <Main />
-                                </div>
-                            </main>
-                        </div>
+                        <ProtectedRoute>
+                            <div className="wrapper">
+                                <header className="App-header">
+                                    <Navbar />
+                                </header>
+                                <main>
+                                    <div className="row container center">
+                                        <Minibar />
+                                        <Main />
+                                    </div>
+                                </main>
+                            </div>
+                        </ProtectedRoute>
                     }
                 />
                 <Route
@@ -51,35 +71,21 @@ function App() {
                     }
                 />
                 <Route
-                    path="/login"
-                    element={
-                        <div className="row container center">
-                            <Login />
-                        </div>
-                    }
-                />
-                <Route
-                    path="/register"
-                    element={
-                        <div className="row container center">
-                            <Register />
-                        </div>
-                    }
-                />
-                <Route
                     path="/posts"
                     element={
-                        <div className="wrapper">
-                            <header className="App-header">
-                                <Navbar />
-                            </header>
-                            <main>
-                                <div className="row container center">
-                                    <Minibar />
-                                    <PostPage />
-                                </div>
-                            </main>
-                        </div>
+                        <ProtectedRoute>
+                            <div className="wrapper">
+                                <header className="App-header">
+                                    <Navbar />
+                                </header>
+                                <main>
+                                    <div className="row container center">
+                                        <Minibar />
+                                        <PostPage />
+                                    </div>
+                                </main>
+                            </div>
+                        </ProtectedRoute>
                     }
                 />
                 <Route
@@ -103,33 +109,39 @@ function App() {
                 <Route
                     path="/shedules"
                     element={
-                        <div className="wrapper">
-                            <header className="App-header">
-                                <Navbar />
-                            </header>
-                            <main>
-                                <div className="row container center">
-                                    <Minibar />
-                                </div>
-                            </main>
-                        </div>
+                        <ProtectedRoute>
+                            <div className="wrapper">
+                                <header className="App-header">
+                                    <Navbar />
+                                </header>
+                                <main>
+                                    <div className="row container center">
+                                        <Minibar />
+                                    </div>
+                                </main>
+                            </div>
+                        </ProtectedRoute>
                     }
                 />
                 <Route
                     path="/analytics"
                     element={
-                        <div className="wrapper">
-                            <header className="App-header">
-                                <Navbar />
-                            </header>
-                            <main>
-                                <div className="row container center">
-                                    <Minibar />
-                                </div>
-                            </main>
-                        </div>
+                        <ProtectedRoute>
+                            <div className="wrapper">
+                                <header className="App-header">
+                                    <Navbar />
+                                </header>
+                                <main>
+                                    <div className="row container center">
+                                        <Minibar />
+                                    </div>
+                                </main>
+                            </div>
+                        </ProtectedRoute>
                     }
                 />
+                {/* Перенаправление на логин при попытке доступа к несуществующему пути */}
+                <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         </div>
     );
